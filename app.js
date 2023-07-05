@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 
 // 載入 Todo model
-const Todo = require('./models/todo') // 載入 Todo model
+const Todo = require('./models/todo')
 
 const app = express()
 
@@ -34,6 +34,11 @@ db.once('open', () => {
 app.engine('hbs', exphbs({ defaultLayout: 'main' , extname: '.hbs' }));
 app.set('view engine', 'hbs')
 
+// 引用 body-parser
+const bodyParser = require('body-parser')
+// 用 app.use 規定每一筆請求都需要透過 body-parser 進行前置處理
+app.use(bodyParser.urlencoded({ extended: true }))
+
 // Todo路由設定
 app.get('/', (req, res) => {
   Todo.find() // 取出 Todo model 裡的所有資料
@@ -46,6 +51,23 @@ app.get('/', (req, res) => {
 app.get('/', (req, res) => {
   res.render('index')
 })
+
+// 路由設定
+app.get('/todos/new', (req, res) => {
+  return res.render('new')
+})
+
+// -----------------------
+
+// CRUD, Create
+app.post('/todos', (req, res) => {
+  const name = req.body.name       // 從 req.body 拿出表單裡的 name 資料
+  return Todo.create({ name })     // 存入資料庫
+    .then(() => res.redirect('/')) // 新增完成後導回首頁
+    .catch(error => console.log(error))
+})
+
+// -----------------------
 
 // 設定 port 3000
 app.listen(3000, () => {
