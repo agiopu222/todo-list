@@ -1,11 +1,13 @@
 // 載入 express 並建構應用程式伺服器
 const express = require('express')
-const mongoose = require('mongoose') // 載入 mongoose
+
+// 載入 mongoose
+const mongoose = require('mongoose')
 
 // 加入這段 code, 僅在非正式環境時, 使用 dotenv
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+    require('dotenv').cosnfig()
+  }
 
 const app = express()
 
