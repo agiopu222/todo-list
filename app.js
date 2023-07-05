@@ -69,6 +69,15 @@ app.post('/todos', (req, res) => {
 
 // -----------------------
 
+// CRUD, Read/Detail
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  return Todo.findById(id)
+    .lean()
+    .then((todo) => res.render('detail', { todo }))
+    .catch(error => console.log(error))
+})
+
 // 設定 port 3000
 app.listen(3000, () => {
   console.log('App is running on http://localhost:3000')
