@@ -1,3 +1,5 @@
+// app.js 裡和「資料庫連線」有關的程式碼都複製過來一份
+
 // 載入 mongoose
 const mongoose = require('mongoose')
 
