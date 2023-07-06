@@ -103,10 +103,11 @@ app.get('/todos/:id/edit', (req, res) => {
 // CRUD, Update/edit
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
+  const { name, isDone } = req.body
   return Todo.findById(id)
     .then(todo => {
       todo.name = name
+      todo.isDone = isDone === 'on'
       return todo.save() //這邊不能用lean, 因為用了lean資料就是乾淨的, 就沒有save這個function可以用
     })
     .then(()=> res.redirect(`/todos/${id}`))
