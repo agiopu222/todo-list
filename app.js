@@ -107,12 +107,23 @@ app.post('/todos/:id/edit', (req, res) => {
   return Todo.findById(id)
     .then(todo => {
       todo.name = name
-      return todo.save()
+      return todo.save() //這邊不能用lean, 因為用了lean資料就是乾淨的, 就沒有save這個function可以用
     })
     .then(()=> res.redirect(`/todos/${id}`))
     .catch(error => console.log(error))
 })
 
+// -----------------------
+
+// CRUD, Delete
+
+app.post('/todos/:id/delete', (req, res) => {
+  const id = req.params.id
+  return Todo.findById(id)
+    .then(todo => todo.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
 
 
 // 設定 port 3000
